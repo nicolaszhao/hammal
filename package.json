@@ -1,0 +1,27 @@
+{
+  "name": "hammal",
+  "version": "0.1.0",
+  "description": "Personal modern front-end project generator",
+  "private": true,
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "postinstall": "npm run bootstrap"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/nicolaszhao/hammal.git"
+  },
+  "keywords": [
+    "cli",
+    "builder",
+    "generator",
+    "webpack",
+    "babel"
+  ],
+  "author": "NZ",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nicolaszhao/hammal/issues"
+  },
+  "homepage": "https://github.com/nicolaszhao/hammal#readme"
+}
