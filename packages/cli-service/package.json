@@ -1,10 +1,13 @@
 {
   "name": "@hammal/cli-service",
   "version": "0.10.0",
-  "description": "local service for hammal-cli projects",
+  "description": "Local service for hammal-cli projects",
   "main": "./bin/index.js",
   "bin": {
     "hammal-cli-service": "./bin/index.js"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "repository": {
     "type": "git",
