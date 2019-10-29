@@ -1,0 +1,43 @@
+{
+  "name": "@hammal/cli",
+  "version": "0.10.0",
+  "description": "Hammal boilerplate generator based on Command-line interface",
+  "main": "./bin/index.js",
+  "bin": {
+    "hammal": "./bin/cli.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/nicolaszhao/hammal.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nicolaszhao/hammal/issues"
+  },
+  "homepage": "https://github.com/nicolaszhao/hammal#readme",
+  "keywords": [
+    "cli",
+    "boilerplate-generator"
+  ],
+  "author": "NZ",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "commander": "^2.20.0",
+    "cross-spawn": "^6.0.5",
+    "download-git-repo": "^2.0.0",
+    "fs-extra": "^8.1.0",
+    "glob": "^7.1.4",
+    "handlebars": "^4.1.2",
+    "ini": "^1.3.5",
+    "inquirer": "^6.5.1",
+    "ora": "^3.4.0",
+    "semver": "^6.3.0",
+    "validate-npm-package-name": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=8"
+  }
+}

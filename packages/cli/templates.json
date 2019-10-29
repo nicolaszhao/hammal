@@ -1,0 +1,30 @@
+{
+  "pure-mpa": {
+    "url": "nicolaszhao/pure-mpa-boilerplate",
+    "description": "Pure MPA (with jQuery)"
+  },
+  "react-mpa": {
+    "url": "nicolaszhao/react-mpa-boilerplate",
+    "description": "React MPA"
+  },
+  "react-spa": {
+    "url": "nicolaszhao/react-spa-boilerplate",
+    "description": "React SPA"
+  },
+  "react-redux-spa": {
+    "url": "nicolaszhao/react-redux-spa-boilerplate",
+    "description": "React SPA (with Redux)"
+  },
+  "vue-spa": {
+    "url": "nicolaszhao/vue-spa-boilerplate",
+    "description": "Vue SPA"
+  },
+  "library": {
+    "url": "nicolaszhao/library-boilerplate",
+    "description": "Library"
+  },
+  "react-components-library": {
+    "url": "nicolaszhao/react-components-library-boilerplate",
+    "description": "React Components Library"
+  }
+}
