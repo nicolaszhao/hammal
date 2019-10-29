@@ -1,3 +1,6 @@
 {
-  "extends": "nicolaz-base"
+  "extends": "nicolaz-base",
+  "rules": {
+    "no-console": "off"
+  }
 }
