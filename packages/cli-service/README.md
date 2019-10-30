@@ -134,7 +134,7 @@ pages: {
   // entry name 为：index, main, home, homepage 时，
   // 模板将使用 `public/index.html`
   index: 'src/pages/home/index.js',
-  
+
   // 如果 entry：subpage 未能找到 `public/subpage.html`，
   // 将回退使用 `public/index.html`
   subpage: 'src/pages/subpage/index.js'
@@ -184,7 +184,7 @@ module.exports = {
     } else {
       // 为生产环境修改配置
     }
-    
+
     return config;
   }
 };
@@ -201,7 +201,58 @@ module.exports = {
 .env.[mode].local   # 只在指定的模式中被载入，但会被 git 忽略
 ```
 
-只有 `HAMMAL_APP_` 开头的变量才会被 `webpack.DefinePlugin` 嵌入到客户端包中。`.env.local` 和 `.env.[mode].local` 应该只在本地生效，注意检查 `.gitignore` 文件。 
+只有 `HAMMAL_APP_` 开头的变量才会被 `webpack.DefinePlugin` 嵌入到客户端包中。`.env.local` 和 `.env.[mode].local` 应该只在本地生效，注意检查 `.gitignore` 文件。
 
 参考于 [Vue CLI 的文档]([https://cli.vuejs.org/zh/guide/mode-and-env.html#%E6%A8%A1%E5%BC%8F](https://cli.vuejs.org/zh/guide/mode-and-env.html))。
+
+## TypeScript
+
+安装 NPM 依赖包:
+
+```shell
+npm i --save-dev typescript ts-loader
+```
+
+在项目根目录中，新建文件 `tsconfig.json` ：
+
+```json
+{
+  "compilerOptions": {
+    "target": "es5",
+    "strict": true,
+    "module": "es2015",
+    "moduleResolution": "node"
+  },
+  "include": [
+    "./src/**/*"
+  ]
+}
+```
+
+如果是 React 脚手架，需要增加 `tsconfig.json` 配置项：
+
+```diff
+{
+  "compilerOptions": {
+    ...
++   "jsx": "react"
+  },
+  ...
+}
+```
+
+如果是 Vue 脚手架，需要在 `src/` 下新建声明文件 `vue-shims.d.ts`：
+
+```tsx
+declare module "*.vue" {
+  import Vue from "vue";
+  export default Vue;
+}
+```
+
+更多 TypeScript 配置，请参考：
+
+- [TypeScript Babel Starter](https://github.com/Microsoft/TypeScript-Babel-Starter#readme)
+- [TypeScript React Starter](https://github.com/Microsoft/TypeScript-React-Starter#typescript-react-starter)
+- [TypeScript Vue Starter](https://github.com/Microsoft/TypeScript-Vue-Starter#typescript-vue-starter)
 
