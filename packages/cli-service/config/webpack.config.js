@@ -263,7 +263,21 @@ module.exports = (webpackEnv) => {
       host: '0.0.0.0',
       port: 3003,
       historyApiFallback: true,
-      stats: 'minimal',
+
+      // 设置为预设值时，不会把命令行的 --color 参数合并进 stats 对象，导致命令行都是黑白的
+      // 设置为 Object 后，webpack-dev-server 会合并 --color
+      // webpack-dev-server 源码:
+      // https://github.com/webpack/webpack-dev-server/blob/c9e9178a4882e414a6b9616baa35e8dbf7b2dd75/lib/utils/createConfig.js
+      // minimal 预设配置:
+      // https://github.com/webpack/webpack/blob/beec753201763fa3724bd965a93106126d13b271/lib/stats/DefaultStatsPresetPlugin.js
+      stats: {
+        all: false,
+        modules: true,
+        maxModules: 0,
+        errors: true,
+        warnings: true,
+        logging: 'warn',
+      },
       ...devServer,
     },
   };
