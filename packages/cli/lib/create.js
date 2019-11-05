@@ -14,7 +14,7 @@ const { getAllTemplates } = require('./templateHelper');
 const pkg = require('../package.json');
 
 const defaultBrowsers = {
-  production: ['> 1%', 'last 5 versions', 'ie 11'],
+  production: ['> 1%', 'last 2 versions'],
   development: [
     'last 1 chrome version',
     'last 1 firefox version',
