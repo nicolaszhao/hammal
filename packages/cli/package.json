@@ -1,6 +1,6 @@
 {
   "name": "@hammal/cli",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "description": "Hammal boilerplate generator based on Command-line interface",
   "main": "./bin/index.js",
   "bin": {
