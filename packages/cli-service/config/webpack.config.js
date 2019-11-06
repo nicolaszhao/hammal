@@ -58,8 +58,10 @@ module.exports = (webpackEnv) => {
             // includes autoprefixer
             require('postcss-preset-env')(),
 
-            // includes sanitize.css, use @import-sanitize
-            require('postcss-normalize')(),
+            // includes sanitize.css & normalize.css, use @import "sanitize.css"
+            require('postcss-import')(
+              require('postcss-normalize')().postcssImport(),
+            ),
           ],
           sourceMap: isEnvProduction && sourceMap,
         },
