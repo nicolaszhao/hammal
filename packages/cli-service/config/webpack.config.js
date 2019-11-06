@@ -91,12 +91,8 @@ module.exports = (webpackEnv) => {
       })];
     }
 
-    const chunks = Object.keys(pages);
-
-    return chunks.reduce((ret, chunk) => {
-      const chunkPath = path.resolve(paths.appPath, pages[chunk]);
-
-      if (fs.existsSync(chunkPath)) {
+    return Object.keys(pages).reduce((ret, chunk) => {
+      if (fs.existsSync(pages[chunk])) {
         const filename = indexPageNames.includes(chunk) ? 'index.html' : `${chunk}.html`;
         let template = path.resolve(paths.appPublic, filename);
 
@@ -124,6 +120,12 @@ module.exports = (webpackEnv) => {
       : `${publicUrl}/`;
 
   const env = getClientEnvironment(publicPath);
+
+  if (pages) {
+    Object.keys(pages).forEach((chunk) => {
+      pages[chunk] = path.resolve(paths.appPath, pages[chunk]);
+    });
+  }
 
   const webpackConfig = {
     mode: isEnvProduction ? 'production' : 'development',
