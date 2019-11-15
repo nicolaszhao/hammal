@@ -81,8 +81,7 @@ function install(root) {
   });
 }
 
-function generateReadme(root, appName, hasService) {
-  const readmePath = path.join(root, 'README.md');
+function createServiceReadmeContent(appName, oldContent) {
   const scripts = [
     {
       script: 'npm start',
@@ -93,39 +92,50 @@ function generateReadme(root, appName, hasService) {
       description: 'Bundles the app into static files for production.',
     },
   ];
+
+  return [
+    `# ${appName}`,
+    '',
+    '## Usage',
+    '',
+    '### Install project dependencies',
+    '',
+    '```',
+    'npm install',
+    '```',
+    '',
+    scripts
+      .map((script) => [
+        `### ${script.description}`,
+        '',
+        '```',
+        `${script.script}`,
+        '```',
+        '',
+      ].join(os.EOL))
+      .join(os.EOL),
+    '### Customize configuration',
+    'See [Configuration Reference](https://github.com/nicolaszhao/hammal/blob/master/packages/cli-service/README.md).',
+    oldContent ? ['', oldContent].join(os.EOL) : '',
+  ].join(os.EOL);
+}
+
+function generateReadme(root, appName, hasService) {
+  const readmePath = path.join(root, 'README.md');
+  const readmeExists = fs.existsSync(readmePath);
   let readmeContent;
 
-  if (hasService) {
-    readmeContent = [
-      `# ${appName}`,
-      '',
-      '## Usage',
-      '',
-      '### Install project dependencies',
-      '',
-      '```',
-      'npm install',
-      '```',
-      '',
-      scripts
-        .map((script) => [
-          `### ${script.description}`,
-          '',
-          '```',
-          `${script.script}`,
-          '```',
-          '',
-        ].join(os.EOL))
-        .join(os.EOL),
-      '### Customize configuration',
-      'See [Configuration Reference](https://github.com/nicolaszhao/hammal/blob/master/packages/cli-service/README.md).',
-      '',
-    ].join(os.EOL);
-  } else if (fs.existsSync(readmePath)) {
+  if (readmeExists) {
     readmeContent = fs.readFileSync(readmePath);
-    readmeContent = handlebars.compile(readmeContent.toString())({
-      title: appName,
-    });
+    if (hasService) {
+      readmeContent = createServiceReadmeContent(appName, readmeContent);
+    } else {
+      readmeContent = handlebars.compile(readmeContent.toString())({
+        title: appName,
+      });
+    }
+  } else if (hasService) {
+    readmeContent = createServiceReadmeContent(appName);
   } else {
     readmeContent = `# ${appName}${os.EOL}`;
   }
