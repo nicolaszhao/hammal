@@ -4,8 +4,8 @@ const ini = require('ini');
 const chalk = require('chalk');
 const templates = require('../templates.json');
 
-const HAMALRC = path.join(process.env.HOME, '.hamalrc');
-const HAMAL_SERVICE_TEMPLATES = [
+const HAMMALRC = path.join(process.env.HOME, '.hammalrc');
+const HAMMAL_SERVICE_TEMPLATES = [
   'pure-mpa',
   'react-mpa',
   'react-spa',
@@ -19,11 +19,11 @@ const setCustomTemplates = (config) => {
     }
   });
 
-  fs.writeFileSync(HAMALRC, ini.stringify(config));
+  fs.writeFileSync(HAMMALRC, ini.stringify(config));
 };
 
-const getCustomTemplates = () => (fs.existsSync(HAMALRC)
-  ? ini.parse(fs.readFileSync(HAMALRC, 'utf-8'))
+const getCustomTemplates = () => (fs.existsSync(HAMMALRC)
+  ? ini.parse(fs.readFileSync(HAMMALRC, 'utf-8'))
   : {}
 );
 
@@ -41,7 +41,7 @@ const getAllTemplates = () => {
       }
     }
 
-    if (HAMAL_SERVICE_TEMPLATES.includes(name)) {
+    if (HAMMAL_SERVICE_TEMPLATES.includes(name)) {
       all[name].hasService = true;
     }
   });
