@@ -6,8 +6,8 @@ const templates = require('../templates.json');
 
 const HAMMALRC = path.join(process.env.HOME, '.hammalrc');
 const HAMMAL_SERVICE_TEMPLATES = [
-  'pure-mpa',
-  'react-mpa',
+  'pure',
+  'react',
   'react-spa',
   'react-redux-spa',
 ];
@@ -43,6 +43,10 @@ const getAllTemplates = () => {
 
     if (HAMMAL_SERVICE_TEMPLATES.includes(name)) {
       all[name].hasService = true;
+    }
+
+    if (/library/.test(name)) {
+      all[name].isLibrary = true;
     }
   });
 

@@ -2,6 +2,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const os = require('os');
 const util = require('util');
+const { execSync } = require('child_process');
 const ora = require('ora');
 const chalk = require('chalk');
 const inquirer = require('inquirer');
@@ -151,6 +152,18 @@ function findTemplateConfig(name) {
   return all[name];
 }
 
+function getAuthor() {
+  let name = '';
+  try {
+    name = execSync('git config --get user.name')
+      .toString()
+      .trim();
+  } catch (e) {
+    // ignore
+  }
+  return name;
+}
+
 module.exports = async (name) => {
   const root = path.resolve(name);
   const projectName = path.basename(root);
@@ -163,7 +176,12 @@ module.exports = async (name) => {
 
   const spinner = ora();
   const { template, eslint } = await getAnswers();
-  const { url, custom = false, hasService = false } = findTemplateConfig(template);
+  const {
+    url,
+    custom = false,
+    hasService = false,
+    isLibrary = false,
+  } = findTemplateConfig(template);
 
   spinner.start('Downloading template...');
 
@@ -189,6 +207,11 @@ module.exports = async (name) => {
     private: true,
     browserslist: defaultBrowsers,
   };
+
+  if (isLibrary) {
+    delete appPackage.private;
+    appPackage.author = getAuthor();
+  }
 
   if (!eslint) {
     try {
