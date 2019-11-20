@@ -211,6 +211,8 @@ module.exports = async (name) => {
   if (isLibrary) {
     delete appPackage.private;
     appPackage.author = getAuthor();
+    appPackage.main = `dist/${projectName}.cjs.js`;
+    appPackage.module = `dist/${projectName}.esm.js`;
   }
 
   if (!eslint) {
