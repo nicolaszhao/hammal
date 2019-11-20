@@ -132,7 +132,7 @@ function generateReadme(root, appName, hasService) {
       readmeContent = createServiceReadmeContent(appName, readmeContent);
     } else {
       readmeContent = handlebars.compile(readmeContent.toString())({
-        title: appName,
+        name: appName,
       });
     }
   } else if (hasService) {
