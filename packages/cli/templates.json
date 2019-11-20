@@ -1,11 +1,11 @@
 {
   "pure": {
     "url": "nicolaszhao/pure-boilerplate",
-    "description": "Pure"
+    "description": "Pure MPA"
   },
   "react": {
     "url": "nicolaszhao/react-boilerplate",
-    "description": "React"
+    "description": "React MPA"
   },
   "react-spa": {
     "url": "nicolaszhao/react-spa-boilerplate",
@@ -17,11 +17,11 @@
   },
   "vue": {
     "url": "nicolaszhao/vue-boilerplate",
-    "description": "Vue"
+    "description": "Vue SPA"
   },
   "library": {
     "url": "nicolaszhao/library-boilerplate",
-    "description": "Library"
+    "description": "JavaScript Library"
   },
   "react-library": {
     "url": "nicolaszhao/react-library-boilerplate",
