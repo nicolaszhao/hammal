@@ -73,7 +73,11 @@ module.exports = (webpackEnv) => {
       loaders.push({
         loader: require.resolve(preProcessor.loader),
         options: {
-          sourceMap: isEnvProduction && sourceMap,
+          // 为 resolve-url-loader 在开发环境设置为 true
+          // https://github.com/bholloway/resolve-url-loader/blob/master/packages/resolve-url-loader/README.md
+          sourceMap: isEnvDevelopment
+            ? true
+            : sourceMap,
           ...preProcessor.options,
         },
       });
