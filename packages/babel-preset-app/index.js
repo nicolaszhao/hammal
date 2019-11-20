@@ -20,14 +20,15 @@ module.exports = function create(api, opts) {
   const absoluteRuntimePath = path.dirname(
     require.resolve('@babel/runtime/package.json'),
   );
-
-  if (react) {
+  const requireReactHotLoader = () => {
+    let reactHotLoader = '';
     try {
-      resolve.sync('react-hot-loader', { basedir: process.cwd() });
+      reactHotLoader = resolve.sync('react-hot-loader/babel', { basedir: process.cwd() });
     } catch (err) {
-      throw new Error('Enabling react option of @hammal/babel-preset-app requires "react-hot-loader".');
+      // ignore
     }
-  }
+    return reactHotLoader;
+  };
 
   return {
     presets: [
@@ -89,7 +90,7 @@ module.exports = function create(api, opts) {
         },
       ],
 
-      react && 'react-hot-loader/babel',
+      react && requireReactHotLoader(),
     ].filter(Boolean),
   };
 };
