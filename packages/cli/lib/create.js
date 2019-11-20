@@ -164,6 +164,7 @@ function getAuthor() {
   return name;
 }
 
+// TODO: 支持 npm --scope
 module.exports = async (name) => {
   const root = path.resolve(name);
   const projectName = path.basename(root);
