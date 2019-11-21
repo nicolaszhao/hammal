@@ -15,8 +15,8 @@
     "url": "nicolaszhao/react-redux-spa-boilerplate",
     "description": "React SPA (with Redux)"
   },
-  "vue": {
-    "url": "nicolaszhao/vue-boilerplate",
+  "vue-spa": {
+    "url": "nicolaszhao/vue-spa-boilerplate",
     "description": "Vue SPA"
   },
   "library": {
