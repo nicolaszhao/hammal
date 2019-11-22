@@ -11,13 +11,13 @@
     "url": "nicolaszhao/react-spa-boilerplate",
     "description": "React SPA"
   },
-  "react-redux-spa": {
-    "url": "nicolaszhao/react-redux-spa-boilerplate",
+  "react-app": {
+    "url": "nicolaszhao/react-app-boilerplate",
     "description": "React SPA (with Redux)"
   },
-  "vue-spa": {
-    "url": "nicolaszhao/vue-spa-boilerplate",
-    "description": "Vue SPA"
+  "vue-app": {
+    "url": "nicolaszhao/vue-app-boilerplate",
+    "description": "Vue SPA (with Vuex)"
   },
   "library": {
     "url": "nicolaszhao/library-boilerplate",
