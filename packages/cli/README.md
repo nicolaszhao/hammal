@@ -25,20 +25,20 @@ Commands:
 ## Templates
 
 ```
-pure-mpa ---------------- nicolaszhao/pure-mpa-boilerplate
-react-mpa --------------- nicolaszhao/react-mpa-boilerplate
-react-spa --------------- nicolaszhao/react-spa-boilerplate
-react-redux-spa --------- nicolaszhao/react-redux-spa-boilerplate
-vue-spa ----------------- nicolaszhao/vue-spa-boilerplate
-library ----------------- nicolaszhao/library-boilerplate
-react-components-library  nicolaszhao/react-components-library-boilerplate
+pure --------- nicolaszhao/pure-boilerplate
+react -------- nicolaszhao/react-boilerplate
+react-spa ---- nicolaszhao/react-spa-boilerplate
+react-app ---- nicolaszhao/react-app-boilerplate
+vue-app ------ nicolaszhao/vue-app-boilerplate
+library ------ nicolaszhao/library-boilerplate
+react-library  nicolaszhao/react-library-boilerplate
 ```
 
 You can add custom templates locally.
 
-## @hammal/cli-service project
+## @hammal/cli-service projects
 
-`pure-mpa`, `react-mpa`, `react-spa`, `react-redux-spa`.
+`pure`, `react`, `react-spa`, `react-app`.
 
 ## browserslist
 
@@ -50,8 +50,7 @@ All projects will set [browserslist](https://github.com/browserslist/browserslis
   "browserslist": {
     "production": [
       "> 1%",
-      "last 5 versions",
-      "ie 11"
+      "last 2 versions"
     ],
     "development": [
       "last 1 chrome version",
@@ -64,4 +63,4 @@ All projects will set [browserslist](https://github.com/browserslist/browserslis
 
 ## ESLint
 
-All projects have ESLint, you can remove ESLint by terminal inquirer.
+All templates have ESLint, you can remove ESLint by terminal inquirer.

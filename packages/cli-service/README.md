@@ -1,8 +1,8 @@
 # @hammal/cli-service
 
-## Usage
+## 上手
 
-### Install
+### 安装
 
 ```
 npm i --save-dev @hammal/cli-service
@@ -27,14 +27,14 @@ npm i --save-dev @hammal/cli-service
 
 ```
 # 用法
-hammal-cli-service start [options] [entry]
+hammal-cli-service start [options]
 
 # options
 # --host  指定 host (默认：0.0.0.0)
 # --port  指定 port （默认：3003）
 ```
 
-除了以上命令行参数，还可以通过 `hammal.config.js` 的 `devServer` 字段来配置开发服务器参数（参数字段同 webpack 的 [DevServer](https://webpack.js.org/configuration/dev-server/)）配置。注意，配置会优先使用命令行的 `host` 和 `port` 的值。
+除以上命令行参数，还可以通过 `hammal.config.js` 的 `devServer` 字段来配置开发服务器参数（参数字段同 webpack 的 [DevServer](https://webpack.js.org/configuration/dev-server/)）配置。注意，命令行的 `host` 和 `port` 的配置优先级高于 config 配置。
 
 #### hammal-cli-service build
 
@@ -42,7 +42,7 @@ hammal-cli-service start [options] [entry]
 
 ```
 #用法
-hammal-cli-service build [options] [entry]
+hammal-cli-service build [options]
 
 # options
 # --no-minimize  不压缩构建后的代码（用于调试等）
@@ -67,9 +67,13 @@ Type: `string`
 
 Default: `'/'`
 
-如果构建生产环境代码，会将该配置的值注入到 `process.env.PUBLIC_URL` 中。如果 `publicUrl` 没有以 `/` 结尾，`PUBLIC_URL` 会自动带上。
+如果构建生产环境代码，会将该配置注入到 `process.env.PUBLIC_URL` 中。如果 `publicUrl` 没有以 `/` 结尾，`PUBLIC_URL` 会自动带上。
 
-当应用部署到服务器的非根路径目录， 你就需要用该参数指定一个子路径。比如：`https://nicolaszhao.com/my-app/`，则设置 `publicUrl` 为 `/my-app/`。
+当资源部署路径并非应用访问的服务器根路径， 你就需要通过该参数配置一个路径。
+
+如果资源和应用在同一域名下，可以直接配子路径。比如：`https://nicolaszhao.com/my-app/`，则设置 `publicUrl` 为 `/my-app/`。
+
+如果资源和应用不在同一域名下，需要配置成绝对路径，比如：`https://nicolaszhao.com/statics/`。
 
 #### 何时使用?
 
@@ -91,7 +95,7 @@ __webpack_public_path__ = process.env.PUBLIC_URL;
 ```
 // entry.js
 import './public-path';
-import './app';
+import './App';
 ```
 
 参见：[webpack 文档](https://webpack.js.org/guides/public-path/#on-the-fly)
@@ -196,9 +200,9 @@ module.exports = {
 
 ```
 .env                # 在所有的环境中被载入
-.env.local          # 在所有的环境中被载入，但会被 git 忽略
+.env.local          # 在所有的环境中被载入，但应该被 git 忽略
 .env.[mode]         # 只在指定的模式中被载入
-.env.[mode].local   # 只在指定的模式中被载入，但会被 git 忽略
+.env.[mode].local   # 只在指定的模式中被载入，但应该被 git 忽略
 ```
 
 只有 `HAMMAL_APP_` 开头的变量才会被 `webpack.DefinePlugin` 嵌入到客户端包中。`.env.local` 和 `.env.[mode].local` 应该只在本地生效，注意检查 `.gitignore` 文件。
