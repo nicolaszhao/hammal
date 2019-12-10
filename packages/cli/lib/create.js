@@ -8,7 +8,7 @@ const chalk = require('chalk');
 const inquirer = require('inquirer');
 const spawn = require('cross-spawn');
 const downloadGitRepo = require('download-git-repo');
-const validateProjectName = require('validate-npm-package-name');
+const validatePackageName = require('validate-npm-package-name');
 const handlebars = require('handlebars');
 const glob = require('glob');
 const { getAllTemplates } = require('./templateHelper');
@@ -23,11 +23,11 @@ const defaultBrowsers = {
   ],
 };
 
-function checkProjectName(projectName) {
-  const validationResult = validateProjectName(projectName);
+function checkPackageName(pkgName) {
+  const validationResult = validatePackageName(pkgName);
 
   if (!validationResult.validForNewPackages) {
-    console.error(`Could not create a project called ${chalk.red(`"${projectName}"`)} because of npm naming restrictions:`);
+    console.error(`Could not create a project called ${chalk.red(`"${pkgName}"`)} because of npm naming restrictions:`);
     const { errors = [], warnings = [] } = validationResult;
     [...errors, ...warnings].forEach((error) => console.error(chalk.red(`  * ${error}`)));
     process.exit(1);
@@ -164,12 +164,13 @@ function getAuthor() {
   return name;
 }
 
-// TODO: 支持 npm --scope
 module.exports = async (name) => {
   const root = path.resolve(name);
   const projectName = path.basename(root);
+  const isScopedPackage = /^@[^/]+\/(.+)$/.test(name);
+  const pkgName = isScopedPackage ? name : projectName;
 
-  checkProjectName(projectName);
+  checkPackageName(pkgName);
   checkProjectConflicts(name);
 
   console.log();
@@ -203,7 +204,7 @@ module.exports = async (name) => {
 
   appPackage = {
     ...appPackage,
-    name: projectName,
+    name: pkgName,
     version: '0.1.0',
     private: true,
     browserslist: defaultBrowsers,
@@ -214,6 +215,15 @@ module.exports = async (name) => {
     appPackage.author = getAuthor();
     appPackage.main = `dist/${projectName}.cjs.js`;
     appPackage.module = `dist/${projectName}.esm.js`;
+
+    if (/^react/.test(template)) {
+      appPackage.style = `dist/${projectName}.css`;
+    }
+    if (isScopedPackage) {
+      appPackage.publishConfig = {
+        access: 'public',
+      };
+    }
   }
 
   if (!eslint) {
@@ -254,7 +264,7 @@ module.exports = async (name) => {
 
   console.log();
   console.log('📄  Generating README.md...');
-  generateReadme(root, projectName, hasService);
+  generateReadme(root, pkgName, hasService);
   console.log();
 
   console.log(`🎉  Successfully created project ${chalk.yellow(projectName)}.`);
