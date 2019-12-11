@@ -82,64 +82,23 @@ function install(root) {
   });
 }
 
-function createServiceReadmeContent(appName, oldContent) {
-  const scripts = [
-    {
-      script: 'npm start',
-      description: 'Starts the development server. Open [http://localhost:3003/](http://localhost:3003/) to view it in the browser.',
-    },
-    {
-      script: 'npm run build',
-      description: 'Bundles the app into static files for production.',
-    },
-  ];
-
-  return [
-    `# ${appName}`,
-    '',
-    '## Get Started',
-    '',
-    '### Install Project Dependencies',
-    '',
-    '```',
-    'npm install',
-    '```',
-    '',
-    '### Run Available Scripts',
-    '',
-    scripts
-      .map((script) => [
-        `#### \`${script.script}\``,
-        '',
-        `${script.description}`,
-        '',
-      ].join(os.EOL))
-      .join(os.EOL),
-    '### Customize Configuration',
-    'See [Configuration Reference](https://github.com/nicolaszhao/hammal/blob/master/packages/cli-service/README.md).',
-    oldContent ? ['', oldContent].join(os.EOL) : '',
-  ].join(os.EOL);
-}
-
-function generateReadme(root, appName, hasService) {
+function generateReadme(root, { projectName, pkgName, hasService }) {
   const readmePath = path.join(root, 'README.md');
   const readmeExists = fs.existsSync(readmePath);
   let readmeContent;
 
-  if (readmeExists) {
+  if (hasService) {
+    readmeContent = fs.readFileSync(path.join(__dirname, 'SERVICE_README_TEMPLATE.md'));
+  } else if (readmeExists) {
     readmeContent = fs.readFileSync(readmePath);
-    if (hasService) {
-      readmeContent = createServiceReadmeContent(appName, readmeContent);
-    } else {
-      readmeContent = handlebars.compile(readmeContent.toString())({
-        name: appName,
-      });
-    }
-  } else if (hasService) {
-    readmeContent = createServiceReadmeContent(appName);
   } else {
-    readmeContent = `# ${appName}${os.EOL}`;
+    readmeContent = `# ${pkgName}${os.EOL}`;
   }
+
+  readmeContent = handlebars.compile(readmeContent.toString())({
+    name: pkgName,
+    projectName,
+  });
 
   fs.writeFileSync(
     path.join(readmePath),
@@ -264,7 +223,7 @@ module.exports = async (name) => {
 
   console.log();
   console.log('📄  Generating README.md...');
-  generateReadme(root, pkgName, hasService);
+  generateReadme(root, { projectName, pkgName, hasService });
   console.log();
 
   console.log(`🎉  Successfully created project ${chalk.yellow(projectName)}.`);
