@@ -97,25 +97,25 @@ function createServiceReadmeContent(appName, oldContent) {
   return [
     `# ${appName}`,
     '',
-    '## Usage',
+    '## Get Started',
     '',
-    '### Install project dependencies',
+    '### Install Project Dependencies',
     '',
     '```',
     'npm install',
     '```',
     '',
+    '### Run Available Scripts',
+    '',
     scripts
       .map((script) => [
-        `### ${script.description}`,
+        `#### \`${script.script}\``,
         '',
-        '```',
-        `${script.script}`,
-        '```',
+        `${script.description}`,
         '',
       ].join(os.EOL))
       .join(os.EOL),
-    '### Customize configuration',
+    '### Customize Configuration',
     'See [Configuration Reference](https://github.com/nicolaszhao/hammal/blob/master/packages/cli-service/README.md).',
     oldContent ? ['', oldContent].join(os.EOL) : '',
   ].join(os.EOL);
