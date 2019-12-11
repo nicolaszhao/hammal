@@ -68,8 +68,7 @@ function getAnswers() {
   ]);
 }
 
-function install(root) {
-  process.chdir(root);
+function install() {
   return new Promise((resolve, reject) => {
     const child = spawn('npm', ['install'], { stdio: 'inherit' });
     child.on('close', (code) => {
@@ -80,6 +79,27 @@ function install(root) {
       resolve();
     });
   });
+}
+
+function hasGit() {
+  try {
+    execSync('git --version', { stdio: 'ignore' });
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function gitCommit() {
+  try {
+    execSync('git add -A', { stdio: 'ignore' });
+    execSync('git commit -m "chore: Initial commit from Hammal"', {
+      stdio: 'ignore',
+    });
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
 
 function generateReadme(root, { projectName, pkgName, hasService }) {
@@ -123,6 +143,17 @@ function getAuthor() {
   return name;
 }
 
+async function removeConfigFiles(pattern, appPath) {
+  try {
+    const files = await util.promisify(glob)(pattern, { cwd: appPath });
+    await Promise.all(
+      files.map((file) => fs.remove(path.resolve(appPath, file))),
+    );
+  } catch (err) {
+    // ignore
+  }
+}
+
 module.exports = async (name) => {
   const root = path.resolve(name);
   const projectName = path.basename(root);
@@ -159,6 +190,14 @@ module.exports = async (name) => {
 
   console.log(`✨  Creating project in ${chalk.green(root)}.`);
 
+  let didGitInit = false;
+
+  if (hasGit()) {
+    console.log('🗃  Initializing git repository...');
+    execSync('git init', { stdio: 'ignore', cwd: root });
+    didGitInit = true;
+  }
+
   let appPackage = require(path.join(root, 'package.json'));
 
   appPackage = {
@@ -186,29 +225,21 @@ module.exports = async (name) => {
   }
 
   if (!eslint) {
-    try {
-      // 移除 eslint、lint-staged(git commit 验证时使用的) 相关的配置文件
-      const files = await util.promisify(glob)('{.eslint*,.lint?(-)staged*}', { cwd: root });
-      await Promise.all(
-        files.map((file) => fs.remove(path.resolve(root, file))),
-      );
-    } catch (err) {
-      // ignore
-    }
-
-    // 移除 eslint、lint-staged 在 package.json 中的配置
+    await removeConfigFiles('.eslint*', root);
     delete appPackage.eslintConfig;
-    delete appPackage['lint-staged'];
-    delete appPackage.husky;
-
-    // 移除 eslint 的依赖包：插件、共享配置等
     Object.keys(appPackage.devDependencies).forEach((deps) => {
       if (/eslint/.test(deps)) {
         delete appPackage.devDependencies[deps];
       }
     });
+  }
 
-    // 移除 lint-staged 的依赖包
+  // 安装 husky 时会自动设置 git hooks，在非 git 的仓库会导致设置失败
+  // ESLint 不需要时同样应该移除 list-staged 的相关依赖
+  if (!eslint || !didGitInit) {
+    await removeConfigFiles('.lint?(-)staged*', root);
+    delete appPackage['lint-staged'];
+    delete appPackage.husky;
     delete appPackage.devDependencies['lint-staged'];
     delete appPackage.devDependencies.husky;
   }
@@ -219,7 +250,10 @@ module.exports = async (name) => {
   );
 
   console.log('📦  Installing project dependencies...');
-  await install(root);
+
+  process.chdir(root);
+
+  await install();
 
   console.log();
   console.log('📄  Generating README.md...');
@@ -233,6 +267,20 @@ module.exports = async (name) => {
     console.log();
     console.log(chalk.cyan(`  ${chalk.gray('$')} cd ${name}`));
     console.log(chalk.cyan(`  ${chalk.gray('$')} npm start`));
+  }
+
+  if (!didGitInit) {
+    console.log();
+    console.log(chalk.yellow(
+      '"lint-staged" requires in git project. After you install git and `git init`, \n'
+      + 'then refer to the documentation "https://github.com/okonet/lint-staged" and reconfigure.',
+    ));
+  } else if (!gitCommit()) {
+    console.log();
+    console.log(chalk.yellow(
+      'Skipped git commit due to missing username and email in git config.\n'
+      + 'You will need to perform the initial commit yourself.',
+    ));
   }
 
   console.log();

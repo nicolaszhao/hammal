@@ -9,7 +9,7 @@ const HAMMAL_SERVICE_TEMPLATES = [
   'pure',
   'react',
   'react-spa',
-  'react-redux-spa',
+  'react-app',
 ];
 
 const setCustomTemplates = (config) => {
