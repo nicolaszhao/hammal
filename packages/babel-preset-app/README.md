@@ -20,7 +20,7 @@ npm i --save-dev @hammal/babel-preset-app
 
 ### 选项
 
-默认值：`{ react: false, debug: false }` 
+默认值：`{ react: false, debug: false }`
 
 #### react
 
@@ -91,3 +91,6 @@ import 'regenerator-runtime/runtime';
 
 默认已开启，且已包含 `@babel/runtime` 依赖。但未开启 `corejs` 选项，否则会完全转换 ES6+ 的所有 API 为沙盒模式，而不是根据 browserslist，这会导致代码冗余。
 
+## License
+
+[MIT](https://github.com/nicolaszhao/hammal/blob/master/LICENSE) © [nicolaszhao](https://github.com/nicolaszhao)

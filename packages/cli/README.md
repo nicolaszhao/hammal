@@ -64,3 +64,7 @@ All projects will set [browserslist](https://github.com/browserslist/browserslis
 ## ESLint
 
 All templates have ESLint, you can remove ESLint by terminal inquirer.
+
+## License
+
+[MIT](https://github.com/nicolaszhao/hammal/blob/master/LICENSE) © [nicolaszhao](https://github.com/nicolaszhao)

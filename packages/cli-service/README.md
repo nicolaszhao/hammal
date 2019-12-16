@@ -260,3 +260,6 @@ declare module "*.vue" {
 - [TypeScript React Starter](https://github.com/Microsoft/TypeScript-React-Starter#typescript-react-starter)
 - [TypeScript Vue Starter](https://github.com/Microsoft/TypeScript-Vue-Starter#typescript-vue-starter)
 
+## License
+
+[MIT](https://github.com/nicolaszhao/hammal/blob/master/LICENSE) © [nicolaszhao](https://github.com/nicolaszhao)
