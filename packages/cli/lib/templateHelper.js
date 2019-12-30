@@ -4,7 +4,7 @@ const ini = require('ini');
 const chalk = require('chalk');
 const templates = require('../templates.json');
 
-const HAMMALRC = path.join(process.env.HOME, '.hammalrc');
+const HAMMAL_CLI_RC = path.join(process.env.HOME, '.hammalclirc');
 const HAMMAL_SERVICE_TEMPLATES = [
   'pure',
   'react',
@@ -19,11 +19,11 @@ const setCustomTemplates = (config) => {
     }
   });
 
-  fs.writeFileSync(HAMMALRC, ini.stringify(config));
+  fs.writeFileSync(HAMMAL_CLI_RC, ini.stringify(config));
 };
 
-const getCustomTemplates = () => (fs.existsSync(HAMMALRC)
-  ? ini.parse(fs.readFileSync(HAMMALRC, 'utf-8'))
+const getCustomTemplates = () => (fs.existsSync(HAMMAL_CLI_RC)
+  ? ini.parse(fs.readFileSync(HAMMAL_CLI_RC, 'utf-8'))
   : {}
 );
 
