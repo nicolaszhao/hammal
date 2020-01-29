@@ -18,4 +18,5 @@ if (result && result.config) {
 // css: { modules: Boolean, loaderOptions: { sass } }
 // devServer: { [webpack-dev-server options] }
 // configureWebpack: Object | Function
+// transpileDependencies
 module.exports = config;

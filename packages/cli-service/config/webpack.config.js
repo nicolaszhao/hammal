@@ -24,6 +24,7 @@ const {
   css = {},
   devServer = {},
   configureWebpack = {},
+  transpileDependencies = [],
 } = config;
 
 const cssRegex = /\.css$/;
@@ -162,7 +163,14 @@ module.exports = (webpackEnv) => {
           oneOf: [
             {
               test: /\.jsx?$/,
-              include: paths.appSrc,
+              include: [
+                paths.appSrc,
+                ...transpileDependencies.map((deps) => path.resolve(
+                  paths.appPath,
+                  'node_modules',
+                  deps,
+                )),
+              ],
               loader: require.resolve('babel-loader'),
               options: {
                 cacheDirectory: true,
