@@ -16,7 +16,7 @@ module.exports = function create(api, opts) {
   const isEnvDevelopment = env === 'development';
   const isEnvProduction = env === 'production';
   const isEnvTest = env === 'test';
-  const { react = false, debug = false } = opts;
+  const { useBuiltIns = 'entry', react = false, debug = false } = opts;
   const absoluteRuntimePath = path.dirname(
     require.resolve('@babel/runtime/package.json'),
   );
@@ -43,7 +43,7 @@ module.exports = function create(api, opts) {
       (isEnvDevelopment || isEnvProduction) && [
         require('@babel/preset-env').default,
         {
-          useBuiltIns: 'entry',
+          useBuiltIns,
 
           // 此 corejs 配置和 @babel/plugin-transform-runtime 的 corejs 有一定区别，
           // 该配置会代替以前版本的 @babel/polyfill 和 core-js2。corejs3 会更细化和面向未来，
