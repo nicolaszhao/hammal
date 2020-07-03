@@ -20,6 +20,11 @@ module.exports = function create(api, opts) {
   const absoluteRuntimePath = path.dirname(
     require.resolve('@babel/runtime/package.json'),
   );
+
+  // react-hot-loader 需要在两块地方使用导入模块路径，
+  // 1. babel 配置的 plugin 中
+  // 2. 项目代码中
+  // 所以，不能在这里做为 babel-preset-app 的依赖项安装
   const requireReactHotLoader = () => {
     let reactHotLoader = '';
     try {
@@ -63,6 +68,18 @@ module.exports = function create(api, opts) {
       ],
     ].filter(Boolean),
     plugins: [
+      require('@babel/plugin-proposal-nullish-coalescing-operator').default,
+      require('@babel/plugin-proposal-optional-chaining').default,
+
+      // decorators 和 class-properties 有相互关联，在 plugins 中还有先后顺序
+      // 并且，class-properties 配置了 loose 模式，那么 decorators 也必须配上 legacy
+      // 参见：https://babeljs.io/docs/en/babel-plugin-proposal-decorators#note-compatibility-with-babel-plugin-proposal-class-properties
+      [
+        require('@babel/plugin-proposal-decorators').default,
+        {
+          legacy: true,
+        },
+      ],
       [
         require('@babel/plugin-proposal-class-properties').default,
         {
@@ -73,8 +90,8 @@ module.exports = function create(api, opts) {
         require('@babel/plugin-transform-runtime').default,
         {
 
-          // 对于 library，暂时不开启 corejs（可配置化），因为插件会在开启 { corejs: 3 } 时，
-          // 一股脑的全部转换所有 ES6+ 的代码和 helpers，包括 instance 方法
+          // 对于 library，暂时不开启 corejs（可配置化），因为插件在开启 { corejs: 3 } 时，
+          // 会一股脑的全部转换所有 ES6+ 的代码和 helpers，包括 instance 方法
           // 目前看起来，插件还不支持 browserslist（类似于 @babel/preset-env），
           // 所以，会导致 library 的代码冗余
           // 参考问题：https://github.com/babel/babel/issues/7330
