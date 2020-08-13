@@ -162,7 +162,7 @@ module.exports = (webpackEnv) => {
         {
           oneOf: [
             {
-              test: /\.jsx?$/,
+              test: /\.(ts|js)x?$/,
               include: [
                 paths.appSrc,
                 ...transpileDependencies.map((deps) => path.resolve(
@@ -262,7 +262,7 @@ module.exports = (webpackEnv) => {
     ].filter(Boolean),
     resolve: {
       modules: [paths.appSrc, 'node_modules'],
-      extensions: ['.wasm', '.mjs', '.js', '.json', '.jsx'],
+      extensions: ['.wasm', '.mjs', '.ts', '.tsx', '.js', '.json', '.jsx'],
     },
     devtool: isEnvDevelopment
       ? 'eval'
