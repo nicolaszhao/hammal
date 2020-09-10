@@ -16,7 +16,12 @@ module.exports = function create(api, opts) {
   const isEnvDevelopment = env === 'development';
   const isEnvProduction = env === 'production';
   const isEnvTest = env === 'test';
-  const { useBuiltIns = 'entry', react = false, debug = false } = opts;
+  const {
+    useBuiltIns = 'entry',
+    typescript = false,
+    react = false,
+    debug = false,
+  } = opts;
   const absoluteRuntimePath = path.dirname(
     require.resolve('@babel/runtime/package.json'),
   );
@@ -66,11 +71,9 @@ module.exports = function create(api, opts) {
           development: isEnvDevelopment,
         },
       ],
+      typescript && require('@babel/preset-typescript').default,
     ].filter(Boolean),
     plugins: [
-      require('@babel/plugin-proposal-nullish-coalescing-operator').default,
-      require('@babel/plugin-proposal-optional-chaining').default,
-
       // decorators 和 class-properties 有相互关联，在 plugins 中还有先后顺序
       // 并且，class-properties 配置了 loose 模式，那么 decorators 也必须配上 legacy
       // 参见：https://babeljs.io/docs/en/babel-plugin-proposal-decorators#note-compatibility-with-babel-plugin-proposal-class-properties
@@ -107,7 +110,11 @@ module.exports = function create(api, opts) {
         },
       ],
 
+      require('@babel/plugin-proposal-optional-chaining').default,
+      require('@babel/plugin-proposal-nullish-coalescing-operator').default,
+
       react && requireReactHotLoader(),
+
     ].filter(Boolean),
   };
 };
