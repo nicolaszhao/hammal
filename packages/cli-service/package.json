@@ -1,6 +1,6 @@
 {
   "name": "@hammal/cli-service",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Local service for hammal-cli projects",
   "main": "./bin/index.js",
   "bin": {
